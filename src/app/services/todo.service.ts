@@ -7,7 +7,7 @@ import { TodoItem } from '../model/todo-item.model';
 export class TodoService {
 
   // temporarily hardcoded
-  private todoList : TodoItem[] = [
+  public todoList : TodoItem[] = [
     new TodoItem("Comprar verduras del mercado"),
     new TodoItem("Lavar la furgoneta"),
   ];

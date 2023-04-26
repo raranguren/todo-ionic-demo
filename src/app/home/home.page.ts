@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { TodoService } from '../services/todo.service';
+import { TodoItem } from '../model/todo-item.model';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +9,14 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  public todoList : TodoItem[];
+
+  constructor(todoService: TodoService) {
+    this.todoList = todoService.todoList;
+  }
+
+  public edit(index: number) {
+    //TODO pop-up to edit
+  }
 
 }
