@@ -23,8 +23,13 @@ export class TodoService {
   }
 
   public update(id: number, description: string) {
-    if (id >= this.todoList.length) return;
+    if (id >= this.todoList.length || id < 0) return;
     this.todoList[id].description = description;
+  }
+
+  public getById(id: number) : TodoItem|null {
+    if (id >= this.todoList.length || id < 0) return null;
+    return this.todoList[id];
   }
 
 }

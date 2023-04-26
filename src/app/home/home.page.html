@@ -17,19 +17,19 @@
 
   <!-- list of items -->
   <ion-list>
-    <ion-item *ngFor="let item of todoList; index as id">
+    <ion-item *ngFor="let item of viewModel.list; index as id">
       <ion-col size="1">
         <ion-checkbox labelPlacement="end" [checked]="item.completed"></ion-checkbox>
       </ion-col>
       <ion-col>
-        <p (click)="edit(id)">{{item.description}}</p>
+        <p (click)="openEditDialog(id)">{{item.description}}</p>
       </ion-col>
     </ion-item>
   </ion-list>  
 
   <!-- floating button to add task -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="add()">
+    <ion-fab-button (click)="openCreateDialog()">
       <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
