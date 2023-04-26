@@ -27,4 +27,19 @@
     </ion-item>
   </ion-list>  
 
+  <!-- floating button to add task -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="add()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- floating button to delete all tasks -->
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button (click)="deleteAll()">
+      <ion-icon name="trash-outline"></ion-icon>
+      <ion-label></ion-label>
+    </ion-fab-button>
+  </ion-fab>
+
 </ion-content>
