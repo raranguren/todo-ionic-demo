@@ -15,7 +15,7 @@ export class TodoService {
   constructor() { }
 
   public deleteAll() {
-    this.todoList = [];
+    this.todoList.splice(0,this.todoList.length);
   }
 
   public add(description: string) {

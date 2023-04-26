@@ -52,7 +52,6 @@ export class HomePage {
   }
 
   public deleteAll() {
-    //TODO confirmation pop-up
     this.todoService.deleteAll();
   }
 
