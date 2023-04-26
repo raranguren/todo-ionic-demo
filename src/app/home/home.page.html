@@ -16,7 +16,7 @@
   </ion-header>
 
   <!-- list of items -->
-  <ion-list>
+  <ion-list style="margin-bottom: 120px">
     <ion-item *ngFor="let item of viewModel.list; index as id">
       <ion-col size="1">
         <ion-checkbox labelPlacement="end" [checked]="item.completed"></ion-checkbox>
