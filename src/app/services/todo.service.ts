@@ -19,7 +19,7 @@ export class TodoService {
   }
 
   public add(description: string) {
-    this.todoList.unshift(new TodoItem(description));
+    this.todoList.push(new TodoItem(description));
   }
 
   public update(id: number, description: string) {
