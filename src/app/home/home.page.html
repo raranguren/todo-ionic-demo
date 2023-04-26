@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      To-do list
+      Tareas
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -11,7 +11,7 @@
   <!-- collapsable header for iOS -->
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">To-do list</ion-title>
+      <ion-title size="large">Tareas</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -30,16 +30,55 @@
   <!-- floating button to add task -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="openCreateDialog()">
-      <ion-icon name="add-outline"></ion-icon>
+      <ion-icon name="add-outline" size="large"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
   <!-- floating button to delete all tasks -->
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button (click)="deleteAll()">
-      <ion-icon name="trash-outline"></ion-icon>
+      <ion-icon name="trash-outline" size="large"></ion-icon>
       <ion-label></ion-label>
     </ion-fab-button>
   </ion-fab>
+
+  <!-- popover form to edit a task -->
+  <ion-popover [isOpen]="viewModel.editMode" (didDismiss)="closeDialog()">
+    <ng-template>
+      <ion-item class="ion-margin">
+        <ion-label position="floating">Descripción de tarea</ion-label>
+        <ion-input type="text" [(ngModel)]="viewModel.editingText"></ion-input>
+      </ion-item>
+      
+      <ion-buttons class="ion-margin ion-justify-content-between">
+        <ion-button color="medium" size="large" (click)="closeDialog()">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+        </ion-button>
+        <ion-button color="primary" size="large" (click)="saveEdit()" [disabled]="viewModel.editingText === ''">
+          <ion-icon name="save-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ng-template>
+  </ion-popover>
+
+
+  <!-- popover form to edit a task -->
+  <ion-popover [isOpen]="viewModel.createMode" (didDismiss)="closeDialog()">
+    <ng-template>
+      <ion-item class="ion-margin">
+        <ion-label position="floating">Descripción de tarea</ion-label>
+        <ion-input type="text" [(ngModel)]="viewModel.editingText"></ion-input>
+      </ion-item>
+      
+      <ion-buttons class="ion-margin ion-justify-content-between">
+        <ion-button color="medium" size="large" (click)="closeDialog()">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+        </ion-button>
+        <ion-button color="primary" size="large" (click)="saveCreate()" [disabled]="viewModel.editingText === ''">
+          <ion-icon name="save-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ng-template>
+  </ion-popover>
 
 </ion-content>
