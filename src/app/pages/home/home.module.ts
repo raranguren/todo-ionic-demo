@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { StoreModule } from '@ngrx/store';
-import { todoFeatureKey, todoReducer } from '../reducers/todo.reducer';
+import { todoFeatureKey, todoReducer } from 'src/app/state/todo.reducer';
+import { HomePage } from './home.page';
 
 
 @NgModule({

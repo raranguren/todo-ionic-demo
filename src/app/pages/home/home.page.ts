@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { TodoService } from '../services/todo.service';
-import { TodoItem } from '../model/todo-item.model';
 import { Observable, Subscription } from 'rxjs';
+import { TodoItem } from 'src/app/model/todo-item.model';
+import { TodoService } from 'src/app/services/todo.service';
 
 @Component({
   selector: 'app-home',
