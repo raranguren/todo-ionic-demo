@@ -17,7 +17,7 @@
 
   <!-- list of items -->
   <ion-list style="margin-bottom: 120px">
-    <ion-item *ngFor="let item of viewModel.list; index as id">
+    <ion-item *ngFor="let item of todoList | async; index as id">
       <ion-col size="1">
         <ion-checkbox labelPlacement="end" [checked]="item.completed"></ion-checkbox>
       </ion-col>
@@ -42,18 +42,18 @@
   </ion-fab>
 
   <!-- popover form to edit a task -->
-  <ion-popover [isOpen]="viewModel.editMode" (didDismiss)="closeDialog()">
+  <ion-popover [isOpen]="editMode" (didDismiss)="closeDialog()">
     <ng-template>
       <ion-item class="ion-margin">
         <ion-label position="floating">Descripción de tarea</ion-label>
-        <ion-input type="text" [(ngModel)]="viewModel.editingText"></ion-input>
+        <ion-input type="text" [(ngModel)]="editingText"></ion-input>
       </ion-item>
       
       <ion-buttons class="ion-margin ion-justify-content-between">
         <ion-button color="medium" size="large" (click)="closeDialog()">
           <ion-icon name="arrow-back-outline"></ion-icon>
         </ion-button>
-        <ion-button color="primary" size="large" (click)="saveEdit()" [disabled]="viewModel.editingText === ''">
+        <ion-button color="primary" size="large" (click)="saveEdit()" [disabled]="editingText === ''">
           <ion-icon name="save-outline"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -62,18 +62,18 @@
 
 
   <!-- popover form to edit a task -->
-  <ion-popover [isOpen]="viewModel.createMode" (didDismiss)="closeDialog()">
+  <ion-popover [isOpen]="createMode" (didDismiss)="closeDialog()">
     <ng-template>
       <ion-item class="ion-margin">
         <ion-label position="floating">Descripción de tarea</ion-label>
-        <ion-input type="text" [(ngModel)]="viewModel.editingText"></ion-input>
+        <ion-input type="text" [(ngModel)]="editingText"></ion-input>
       </ion-item>
       
       <ion-buttons class="ion-margin ion-justify-content-between">
         <ion-button color="medium" size="large" (click)="closeDialog()">
           <ion-icon name="arrow-back-outline"></ion-icon>
         </ion-button>
-        <ion-button color="primary" size="large" (click)="saveCreate()" [disabled]="viewModel.editingText === ''">
+        <ion-button color="primary" size="large" (click)="saveCreate()" [disabled]="editingText === ''">
           <ion-icon name="save-outline"></ion-icon>
         </ion-button>
       </ion-buttons>

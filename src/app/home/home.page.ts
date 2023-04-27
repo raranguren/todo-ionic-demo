@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TodoService } from '../services/todo.service';
 import { TodoItem } from '../model/todo-item.model';
-import { TodoListViewModel } from '../viewmodel/todo-list.viewmodel';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -10,43 +10,50 @@ import { TodoListViewModel } from '../viewmodel/todo-list.viewmodel';
 })
 export class HomePage {
 
-  public viewModel = new TodoListViewModel();
-  public todoService : TodoService;
+  todoList : Observable<TodoItem[]>;
+
+  // Component state
+  editMode = false;
+  createMode = false;
+  editingIndex? : number;
+  editingText = "";
+
+  private todoService : TodoService;
 
   constructor(todoService: TodoService) {
     this.todoService = todoService;
-    this.viewModel.list = todoService.todoList;
+    this.todoList = todoService.getAll();
   }
 
   public openEditDialog(index: number) {
     let item = this.todoService.getById(index);
     if (item) {
-      this.viewModel.editMode = true;
-      this.viewModel.editingIndex = index;
-      this.viewModel.editingText = item.description;  
+      this.editMode = true;
+      this.editingIndex = index;
+      this.editingText = item.description;  
     }
   }
 
   public openCreateDialog() {
-    this.viewModel.createMode = true;
-    this.viewModel.editingText = "";
+    this.createMode = true;
+    this.editingText = "";
   }
 
   public closeDialog() {
-    this.viewModel.editMode = false;
-    this.viewModel.createMode = false;
+    this.editMode = false;
+    this.createMode = false;
   }
 
   public saveEdit() {
     this.todoService.update(
-      this.viewModel.editingIndex!, 
-      this.viewModel.editingText);
+      this.editingIndex!, 
+      this.editingText);
     this.closeDialog();
   }
 
   public saveCreate() {
     this.todoService.add(
-      this.viewModel.editingText
+      this.editingText
     );
     this.closeDialog();
   }

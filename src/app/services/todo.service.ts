@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TodoItem } from '../model/todo-item.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,10 +8,11 @@ import { TodoItem } from '../model/todo-item.model';
 export class TodoService {
 
   // temporarily hardcoded
-  public todoList : TodoItem[] = [
+  private todoList : TodoItem[] = [
     new TodoItem("Comprar verduras del mercado"),
     new TodoItem("Lavar la furgoneta"),
   ];
+  private todoList$ = new BehaviorSubject(this.todoList);
 
   constructor() { }
 
@@ -30,6 +32,10 @@ export class TodoService {
   public getById(id: number) : TodoItem|null {
     if (id >= this.todoList.length || id < 0) return null;
     return this.todoList[id];
+  }
+
+  public getAll() {
+    return this.todoList$.asObservable();
   }
 
 }
