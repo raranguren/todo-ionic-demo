@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { TodoItem } from 'src/app/model/todo-item.model';
-import { TodoService } from 'src/app/services/todo.service';
+import { Store } from '@ngrx/store';
+import { createTask, deleteAllTasks, updateTask } from 'src/app/state/home-page.actions';
+import { selectTodoList } from 'src/app/state/todo.selectors';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +10,7 @@ import { TodoService } from 'src/app/services/todo.service';
 })
 export class HomePage {
 
-  todoList : Observable<TodoItem[]>;
+  todoList$ = this.store.select(selectTodoList);
 
   // Component state
   editMode = false;
@@ -18,20 +18,12 @@ export class HomePage {
   editingIndex? : number;
   editingText = "";
 
-  private todoService : TodoService;
+  constructor(private store: Store) { }
 
-  constructor(todoService: TodoService) {
-    this.todoService = todoService;
-    this.todoList = todoService.getAll();
-  }
-
-  public openEditDialog(index: number) {
-    let item = this.todoService.getById(index);
-    if (item) {
-      this.editMode = true;
-      this.editingIndex = index;
-      this.editingText = item.description;  
-    }
+  public openEditDialog(index: number, text: string) {
+    this.editMode = true;
+    this.editingIndex = index;
+    this.editingText = text;
   }
 
   public openCreateDialog() {
@@ -45,21 +37,17 @@ export class HomePage {
   }
 
   public saveEdit() {
-    this.todoService.update(
-      this.editingIndex!, 
-      this.editingText);
+    this.store.dispatch(updateTask({id: this.editingIndex!, description: this.editingText}));
     this.closeDialog();
   }
 
   public saveCreate() {
-    this.todoService.add(
-      this.editingText
-    );
+    this.store.dispatch(createTask({description: this.editingText}));
     this.closeDialog();
   }
 
   public deleteAll() {
-    this.todoService.deleteAll();
+    this.store.dispatch(deleteAllTasks());
   }
 
 }

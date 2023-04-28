@@ -17,12 +17,12 @@
 
   <!-- list of items -->
   <ion-list style="margin-bottom: 120px">
-    <ion-item *ngFor="let item of todoList | async; index as id">
+    <ion-item *ngFor="let item of todoList$ | async; index as id">
       <ion-col size="1">
         <ion-checkbox labelPlacement="end" [checked]="item.completed"></ion-checkbox>
       </ion-col>
       <ion-col>
-        <p (click)="openEditDialog(id)">{{item.description}}</p>
+        <p (click)="openEditDialog(id, item.description)">{{item.description}}</p>
       </ion-col>
     </ion-item>
   </ion-list>  

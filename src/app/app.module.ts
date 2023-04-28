@@ -11,7 +11,8 @@ import { reducers, metaReducers } from './state';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, StoreModule.forRoot({}, {}), StoreModule.forRoot(reducers, {
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, 
+    StoreModule.forRoot(reducers, {
       metaReducers
     })],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
