@@ -15,17 +15,29 @@
     </ion-toolbar>
   </ion-header>
 
-  <!-- list of items -->
   <ion-list style="margin-bottom: 120px">
-    <ion-item *ngFor="let item of todoList$ | async; index as id">
-      <ion-col size="1">
-        <ion-checkbox labelPlacement="end" [checked]="item.completed"></ion-checkbox>
-      </ion-col>
-      <ion-col>
-        <p (click)="openEditDialog(id, item.description)">{{item.description}}</p>
-      </ion-col>
-    </ion-item>
-  </ion-list>  
+    <!-- list of items -->
+    <ng-container *ngIf="(todoList$ | async) as todoList; else loading">
+      <ion-item *ngFor="let item of todoList; index as id">
+        <ion-col size="1">
+          <ion-checkbox labelPlacement="end" [checked]="item.completed"></ion-checkbox>
+        </ion-col>
+        <ion-col>
+          <p (click)="openEditDialog(id, item.description)">{{item.description}}</p>
+        </ion-col>
+      </ion-item>
+    </ng-container>
+  
+    <!-- spinner while the list is loading in async -->
+    <ng-template #loading>
+      <ion-item>
+        <ion-spinner name="circular" class="ion-col-12"></ion-spinner>
+      </ion-item>
+    </ng-template>
+  </ion-list>
+  
+
+  
 
   <!-- floating button to add task -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
