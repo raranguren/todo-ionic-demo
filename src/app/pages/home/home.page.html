@@ -20,7 +20,7 @@
     <ng-container *ngIf="(todoList$ | async) as todoList; else loading">
       <ion-item *ngFor="let item of todoList; index as id">
         <ion-col size="1">
-          <ion-checkbox labelPlacement="end" [checked]="item.completed"></ion-checkbox>
+          <ion-checkbox (click)="toggle(id)" labelPlacement="end" [checked]="item.completed"></ion-checkbox>
         </ion-col>
         <ion-col>
           <p (click)="openEditDialog(id, item.description)">{{item.description}}</p>

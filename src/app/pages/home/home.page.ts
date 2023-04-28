@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { createTask, deleteAllTasks, updateTask } from 'src/app/state/home-page.actions';
+import { createTask, deleteAllTasks, toggleTask, updateTask } from 'src/app/state/home-page.actions';
 import { selectTodoList } from 'src/app/state/todo.selectors';
 
 @Component({
@@ -10,7 +10,7 @@ import { selectTodoList } from 'src/app/state/todo.selectors';
 })
 export class HomePage {
 
-  todoList$ = this.store.select(selectTodoList);
+  todoList$ = this.store.select(selectTodoList)
 
   // Component state
   editMode = false;
@@ -48,6 +48,10 @@ export class HomePage {
 
   public deleteAll() {
     this.store.dispatch(deleteAllTasks());
+  }
+
+  public toggle(id: number) {
+    this.store.dispatch(toggleTask({id: id}));
   }
 
 }
