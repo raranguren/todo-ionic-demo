@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { createTask, deleteAllTasks, toggleTask, updateTask } from 'src/app/state/todo.actions';
+import { createTask, deleteAllTasks, toggleTask, updateTask, saveTodoList } from 'src/app/state/todo.actions';
 import { selectTodoList } from 'src/app/state/todo.selectors';
 
 /**
@@ -76,6 +76,13 @@ export class TodoPage {
    */
   public toggle(id: number) {
     this.store.dispatch(toggleTask({id: id}));
+  }
+
+  /**
+   * Starts saving the changes to the database
+   */
+  public saveToDatabase() {
+    this.store.dispatch(saveTodoList());
   }
 
 }

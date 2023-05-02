@@ -1,102 +1,161 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import * as TodoPageActions from './todo.actions';
+import * as TodoActions from './todo.actions';
 import { TodoItem } from '../model/todo-item.model';
 
-/**
- * Represents the feature key for the to-do list.
- */
+/** Represents the feature key for the to-do list. */
 export const todoFeatureKey = 'todo';
 
-/**
- * Represents the state of the to-do list.
- */
-export interface State {
-    /** The list of to-do items. */
-    todoList: TodoItem[];
-    /** Indicates whether the to-do list is currently being loaded. */
-    loading: boolean;
+/** An enumeration of the possible status for a to-do list. */
+export enum TodoListStatus {
+  /** The to-do list is currently being fetched from a data source. */
+  Fetching,
+  /** Has been successfully loaded from a data source. */
+  Loaded,
+  /** Currently being saved to a data source. */
+  Saving,
+  /** An error occurred */
+  Error,
 }
 
-/**
- * Represents the initial state of the to-do list.
- */
-export const initialState: State = {
-    todoList: [],
-    loading: false,
+/** Definition of the state for the to-do list feature. */
+export interface TodoState {
+  /** The list of to-do items. */
+  todoList: TodoItem[];
+  /** Indicates whether the to-do list is currently being loaded. */
+  status: TodoListStatus;
 }
 
-/**
- * Represents the reducer function for the to-do list.
- */
-export const todoReducer = createReducer(
-    initialState,
-
-    /**
-     * Updates the state to include a new to-do item based on the given description.
-     * @param state - The current state of the to-do list.
-     * @param description - The description of the new to-do item.
-     * @returns The updated state of the to-do list.
-     */
-    on(TodoPageActions.createTask, (state, { description } ) => ({
-        ...state,
-        todoList: [
-          ...state.todoList,
-          new TodoItem(description)
-        ],
-        loading: false
-      })),
-
-    /**
-     * Updates the state to clear all items in the to-do list.
-     * @param state - The current state of the to-do list.
-     * @returns The updated state of the to-do list.
-     */
-    on(TodoPageActions.deleteAllTasks, state => ( initialState )),
-    
-    /**
-     * Updates the state to toggle the completed status of the item with the given ID.
-     * @param state - The current state of the to-do list.
-     * @param id - The ID of the to-do item to be updated.
-     * @returns The updated state of the to-do list.
-     */
-    on(TodoPageActions.toggleTask, (state, { id }) => {
-        const updatedTodoList = state.todoList.map((item, index) => {
-          if (index === id) {
-            return new TodoItem(item.description, !item.completed);
-          } else {
-            return item;
-          }
-        });
-    
-        return {
-          ...state,
-          todoList: updatedTodoList,
-          loading: false
-        }
-      }),
-    
-    /**
-     * Updates the state to change the description of the item with the given ID.
-     * @param state - The current state of the to-do list.
-     * @param id - The ID of the to-do item to be updated.
-     * @param description - The new description of the to-do item.
-     * @returns The updated state of the to-do list.
-     */
-    on(TodoPageActions.updateTask, (state, {id, description}: { id: number, description: string }) => 
-    ({ todoList: updatedTodoList(state.todoList, id, description, state.todoList[id].completed ) 
-        , loading: false})),
-);
-
-/**
- * Returns a new list of to-do items that has the item with the given ID updated.
- * @param list - The current list of to-do items.
- * @param id - The ID of the to-do item to be updated.
- * @param description - The new description of the to-do item.
- * @param completed - The new completion status of the to-do item.
- * @returns A new list of to-do items with the item with the given ID updated.
- */
-const updatedTodoList = (list: TodoItem[], id: number, description: string, completed: boolean): TodoItem[] => {
-    let item = new TodoItem(description);
-    item.completed = completed;
-    return [...list.slice(0, id), item, ...list.slice(id+1)];
+/** Initial state of the to-do list. */
+export const initialState: TodoState = {
+  todoList: [],
+  status: TodoListStatus.Loaded,
 };
+
+/** Reducers that handle each action */
+export const todoReducer = createReducer(
+  initialState,
+
+  /**
+   * Updates the state to include a new to-do item based on the given description.
+   * @param state - The current state of the to-do list.
+   * @param description - The description of the new to-do item.
+   * @returns The updated state of the to-do list.
+   */
+  on(TodoActions.createTask, (state, { description }) => ({
+    ...state,
+    todoList: [...state.todoList, new TodoItem(description)],
+  })),
+
+  /**
+   * Updates the state to clear all items in the to-do list.
+   * @param state - The current state of the to-do list.
+   * @returns The updated state of the to-do list.
+   */
+  on(TodoActions.deleteAllTasks, (state) => ({
+    ...state,
+    todoList: initialState.todoList,
+  })),
+
+  /**
+   * Updates the state to toggle the completed status of the item with the given ID.
+   * @param state - The current state of the to-do list.
+   * @param id - The ID of the to-do item to be updated.
+   * @returns The updated state of the to-do list.
+   */
+  on(TodoActions.toggleTask, (state, { id }) => {
+    const updatedTodoList = state.todoList.map((item, index) => {
+      if (index === id) {
+        return new TodoItem(item.description, !item.completed);
+      } else {
+        return item;
+      }
+    });
+
+    return {
+      ...state,
+      todoList: updatedTodoList,
+    };
+  }),
+
+  /**
+   * Updates the state to change the description of the item with the given ID.
+   * @param state - The current state of the to-do list.
+   * @param id - The ID of the to-do item to be updated.
+   * @param description - The new description of the to-do item.
+   * @returns The updated state of the to-do list.
+   */
+  on(
+    TodoActions.updateTask,
+    (state, { id, description }: { id: number; description: string }) => {
+      const updatedTodoList = state.todoList.map((item, index) => {
+        if (index === id) {
+          return new TodoItem(description, item.completed);
+        } else {
+          return item;
+        }
+      });
+
+      return {
+        ...state,
+        todoList: updatedTodoList,
+      };
+    }
+  ),
+
+  /**
+   * Sets the status to 'Fetching' when the fetchTasks action is dispatched.
+   * @param state - The current state of the to-do list.
+   * @returns The updated state of the to-do list.
+   */
+  on(TodoActions.fetchTasks, (state) => ({
+    ...state,
+    status: TodoListStatus.Fetching,
+  })),
+
+  /**
+   * Sets the todo list to the specified value and the status to 'Loaded'
+   * when the setTodoList action is dispatched.
+   * @param state - The current state of the to-do list.
+   * @param todoList - The list of tasks to set in the store.
+   * @returns The updated state of the to-do list.
+   */
+  on(TodoActions.setTodoList, (state, { todoList }) => ({
+    ...state,
+    todoList,
+    status: TodoListStatus.Loaded,
+  })),
+
+  /**
+   * Sets the status to 'Saving' when the saveTodoList action is dispatched.
+   * @param state - The current state of the to-do list.
+   * @returns The updated state of the to-do list.
+   */
+  on(TodoActions.saveTodoList, (state) => ({
+    ...state,
+    status: TodoListStatus.Saving,
+  })),
+
+  /**
+   * Sets the status to 'Loaded' when the saveTodoListSuccess action is dispatched.
+   * @param state - The current state of the to-do list.
+   * @returns The updated state of the to-do list.
+   */
+  on(TodoActions.saveTodoListSuccess, (state) => ({
+    ...state,
+    status: TodoListStatus.Loaded,
+  })),
+
+  /**
+   * Sets the status to 'Error' and logs the error when the saveTodoListError action is dispatched.
+   * @param state - The current state of the to-do list.
+   * @param error - The error that occurred while saving the tasks.
+   * @returns The updated state of the to-do list.
+   */
+  on(TodoActions.saveTodoListError, (state, { error }) => {
+    console.error(error);
+    return {
+      ...state,
+      status: TodoListStatus.Error,
+    };
+  })
+);

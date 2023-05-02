@@ -5,6 +5,14 @@
       Tareas
     </ion-title>
   </ion-toolbar>
+
+    <!-- Button in the top corner to save tasks to database -->
+    <ion-fab vertical="top" horizontal="end">
+      <ion-fab-button (click)="saveToDatabase()">
+        <ion-icon name="cloud-upload-outline" size="large"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
 </ion-header>
 
 <!-- Tasks page content -->
@@ -44,14 +52,14 @@
   </ion-list> 
 
   <!-- floating button to add new task -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab vertical="bottom" horizontal="end">
     <ion-fab-button (click)="openCreateDialog()">
       <ion-icon name="add-outline" size="large"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
   <!-- floating button to delete all tasks -->
-  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+  <ion-fab vertical="bottom" horizontal="start">
     <ion-fab-button (click)="deleteAll()">
       <ion-icon name="trash-outline" size="large"></ion-icon>
     </ion-fab-button>
