@@ -1,3 +1,4 @@
+<!-- Tasks page header -->
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
@@ -6,6 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
+<!-- Tasks page content -->
 <ion-content [fullscreen]="true">
 
   <!-- collapsable header for iOS -->
@@ -15,31 +17,33 @@
     </ion-toolbar>
   </ion-header>
 
+  <!-- List of tasks -->
   <ion-list style="margin-bottom: 120px">
-    <!-- list of items -->
-    <ng-container *ngIf="(todoList$ | async) as todoList; else loading">
+    <!-- Use async pipe to display list of tasks whenever the stream updates -->
+    <ng-container *ngIf="(todoList$ | async) as todoList">
+      <!-- Use ngFor to iterate over tasks in list -->
       <ion-item *ngFor="let item of todoList; index as id">
         <ion-col size="1">
+          <!-- Checkbox to toggle task completed state -->
           <ion-checkbox (click)="toggle(id)" labelPlacement="end" [checked]="item.completed"></ion-checkbox>
         </ion-col>
         <ion-col>
+          <!-- Clickable task description to open edit dialog -->
           <p (click)="openEditDialog(id, item.description)">{{item.description}}</p>
         </ion-col>
       </ion-item>
     </ng-container>
   
     <!-- spinner while the list is loading in async -->
+    <!-- TODO: use loading value from the state -->
     <ng-template #loading>
       <ion-item>
         <ion-spinner name="circular" class="ion-col-12"></ion-spinner>
       </ion-item>
     </ng-template>
-  </ion-list>
-  
+  </ion-list> 
 
-  
-
-  <!-- floating button to add task -->
+  <!-- floating button to add new task -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="openCreateDialog()">
       <ion-icon name="add-outline" size="large"></ion-icon>
@@ -53,7 +57,7 @@
     </ion-fab-button>
   </ion-fab>
 
-  <!-- popover form to edit a task -->
+  <!-- popover form for editing a task -->
   <ion-popover [isOpen]="editMode" (didDismiss)="closeDialog()">
     <ng-template>
       <ion-item class="ion-margin">
@@ -73,7 +77,7 @@
   </ion-popover>
 
 
-  <!-- popover form to edit a task -->
+  <!-- popover form for creating a new task -->
   <ion-popover [isOpen]="createMode" (didDismiss)="closeDialog()">
     <ng-template>
       <ion-item class="ion-margin">
