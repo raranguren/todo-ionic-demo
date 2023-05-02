@@ -6,12 +6,17 @@
     </ion-title>
   </ion-toolbar>
 
-    <!-- Button in the top corner to save tasks to database -->
-    <ion-fab vertical="top" horizontal="end">
-      <ion-fab-button (click)="saveToDatabase()">
+    <!-- A button shows in the top corner to save tasks to database -->
+    <ion-fab vertical="top" horizontal="end" class="ion-align-items-center ion-justify-content-center" style="display: flex;">
+      <!-- A spinner shows while it is saving -->
+      <ion-spinner [name]="(isSaving$ | async) ? 'circles' : 'none'"></ion-spinner>
+      <!-- and the button is disabled while saving -->
+      <ion-button (click)="saveToDatabase()" [disabled]="isSaving$ | async">
         <ion-icon name="cloud-upload-outline" size="large"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
+      </ion-button>
+    </ion-fab>  
+    
+     
 
 </ion-header>
 

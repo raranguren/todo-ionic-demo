@@ -6,7 +6,7 @@ import { TodoItem } from '../model/todo-item.model';
 export const todoFeatureKey = 'todo';
 
 /** An enumeration of the possible status for a to-do list. */
-export enum TodoListStatus {
+export enum TodoStatus {
   /** The to-do list is currently being fetched from a data source. */
   Fetching,
   /** Has been successfully loaded from a data source. */
@@ -22,13 +22,13 @@ export interface TodoState {
   /** The list of to-do items. */
   todoList: TodoItem[];
   /** Indicates whether the to-do list is currently being loaded. */
-  status: TodoListStatus;
+  status: TodoStatus;
 }
 
 /** Initial state of the to-do list. */
 export const initialState: TodoState = {
   todoList: [],
-  status: TodoListStatus.Loaded,
+  status: TodoStatus.Loaded,
 };
 
 /** Reducers that handle each action */
@@ -109,7 +109,7 @@ export const todoReducer = createReducer(
    */
   on(TodoActions.fetchTasks, (state) => ({
     ...state,
-    status: TodoListStatus.Fetching,
+    status: TodoStatus.Fetching,
   })),
 
   /**
@@ -122,7 +122,7 @@ export const todoReducer = createReducer(
   on(TodoActions.setTodoList, (state, { todoList }) => ({
     ...state,
     todoList,
-    status: TodoListStatus.Loaded,
+    status: TodoStatus.Loaded,
   })),
 
   /**
@@ -132,7 +132,7 @@ export const todoReducer = createReducer(
    */
   on(TodoActions.saveTodoList, (state) => ({
     ...state,
-    status: TodoListStatus.Saving,
+    status: TodoStatus.Saving,
   })),
 
   /**
@@ -142,7 +142,7 @@ export const todoReducer = createReducer(
    */
   on(TodoActions.saveTodoListSuccess, (state) => ({
     ...state,
-    status: TodoListStatus.Loaded,
+    status: TodoStatus.Loaded,
   })),
 
   /**
@@ -155,7 +155,7 @@ export const todoReducer = createReducer(
     console.error(error);
     return {
       ...state,
-      status: TodoListStatus.Error,
+      status: TodoStatus.Error,
     };
   })
 );

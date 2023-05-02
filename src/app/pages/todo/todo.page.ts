@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { TodoItem } from 'src/app/model/todo-item.model';
 import { createTask, deleteAllTasks, toggleTask, updateTask, saveTodoList } from 'src/app/state/todo.actions';
-import { selectTodoList } from 'src/app/state/todo.selectors';
+import { selectTodoList, selectTodoIsSaving } from 'src/app/state/todo.selectors';
 
 /**
  * The view-model for the todo page, responsible for managing the todo list state.
@@ -16,8 +18,10 @@ import { selectTodoList } from 'src/app/state/todo.selectors';
 })
 export class TodoPage {
 
-  /** A stream of the current todo list value in the State, obtained using a selector. */
-  todoList$ = this.store.select(selectTodoList)
+  /** A stream of the current todo list value in the State */
+  todoList$ : Observable<TodoItem[]> = this.store.select(selectTodoList);
+  /** A stream indicating if the todo list is saving or not */
+  isSaving$ : Observable<boolean> = this.store.select(selectTodoIsSaving);
 
   /** Whether the component is in edit mode: modifying a task. */
   editMode = false;
