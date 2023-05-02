@@ -1,10 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 
 /**
- * Actions for managing tasks in the home page.
+ * Actions for managing tasks in the Todo page.
  */
 export const deleteAllTasks = createAction(
-  '[Home Page] Delete all tasks'
+  '[Todo] Delete all tasks'
 );
 
 /**
@@ -12,7 +12,7 @@ export const deleteAllTasks = createAction(
  * @param {string} description - The description of the new task.
  */
 export const createTask = createAction(
-  '[Home Page] Create new task',
+  '[Todo] Create new task',
   props<{ description: string }>()
 );
 
@@ -22,7 +22,7 @@ export const createTask = createAction(
  * @param {string} description - The new description of the task.
  */
 export const updateTask = createAction(
-  '[Home Page] Update task text',
+  '[Todo] Update task text',
   props<{ id: number, description: string }>()
 );
 
@@ -31,7 +31,7 @@ export const updateTask = createAction(
  * @param {number} id - The ID of the task to toggle.
  */
 export const toggleTask = createAction(
-  '[Home page] Toggle completed',
+  '[Todo] Toggle completed',
   props<{ id: number }>()
 );
 

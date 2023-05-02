@@ -1,5 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import * as HomePageActions from './todo.actions';
+import * as TodoPageActions from './todo.actions';
 import { TodoItem } from '../model/todo-item.model';
 
 /**
@@ -37,7 +37,7 @@ export const todoReducer = createReducer(
      * @param description - The description of the new to-do item.
      * @returns The updated state of the to-do list.
      */
-    on(HomePageActions.createTask, (state, { description } ) => ({
+    on(TodoPageActions.createTask, (state, { description } ) => ({
         ...state,
         todoList: [
           ...state.todoList,
@@ -51,7 +51,7 @@ export const todoReducer = createReducer(
      * @param state - The current state of the to-do list.
      * @returns The updated state of the to-do list.
      */
-    on(HomePageActions.deleteAllTasks, state => ( initialState )),
+    on(TodoPageActions.deleteAllTasks, state => ( initialState )),
     
     /**
      * Updates the state to toggle the completed status of the item with the given ID.
@@ -59,7 +59,7 @@ export const todoReducer = createReducer(
      * @param id - The ID of the to-do item to be updated.
      * @returns The updated state of the to-do list.
      */
-    on(HomePageActions.toggleTask, (state, { id }) => {
+    on(TodoPageActions.toggleTask, (state, { id }) => {
         const updatedTodoList = state.todoList.map((item, index) => {
           if (index === id) {
             return new TodoItem(item.description, !item.completed);
@@ -82,7 +82,7 @@ export const todoReducer = createReducer(
      * @param description - The new description of the to-do item.
      * @returns The updated state of the to-do list.
      */
-    on(HomePageActions.updateTask, (state, {id, description}: { id: number, description: string }) => 
+    on(TodoPageActions.updateTask, (state, {id, description}: { id: number, description: string }) => 
     ({ todoList: updatedTodoList(state.todoList, id, description, state.todoList[id].completed ) 
         , loading: false})),
 );

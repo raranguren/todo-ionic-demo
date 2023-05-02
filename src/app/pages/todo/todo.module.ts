@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 
-import { HomePageRoutingModule } from './home-routing.module';
+import { TodoPageRoutingModule } from './todo-routing.module';
 import { StoreModule } from '@ngrx/store';
 import { todoFeatureKey, todoReducer } from 'src/app/state/todo.reducer';
-import { HomePage } from './home.page';
+import { TodoPage } from './todo.page';
 
 
 @NgModule({
@@ -14,9 +14,9 @@ import { HomePage } from './home.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule,
+    TodoPageRoutingModule,
     StoreModule.forFeature(todoFeatureKey, todoReducer),
   ],
-  declarations: [HomePage]
+  declarations: [TodoPage]
 })
-export class HomePageModule {}
+export class TodoPageModule {}

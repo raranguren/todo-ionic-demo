@@ -4,17 +4,17 @@ import { createTask, deleteAllTasks, toggleTask, updateTask } from 'src/app/stat
 import { selectTodoList } from 'src/app/state/todo.selectors';
 
 /**
- * The view-model for the HomePage component, responsible for managing the todo list state.
+ * The view-model for the todo page, responsible for managing the todo list state.
  * Uses the NgRx library to manage the application State in a reactive way.
  * Uses selectors to obtain a stream of the relevant parts of the State.
  * Uses dispatch actions to modify the State in an immutable way.
  */
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-todo',
+  templateUrl: 'todo.page.html',
+  styleUrls: ['todo.page.scss'],
 })
-export class HomePage {
+export class TodoPage {
 
   /** A stream of the current todo list value in the State, obtained using a selector. */
   todoList$ = this.store.select(selectTodoList)
