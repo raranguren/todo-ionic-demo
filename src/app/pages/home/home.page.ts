@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { createTask, deleteAllTasks, toggleTask, updateTask } from 'src/app/state/home-page.actions';
+import { createTask, deleteAllTasks, toggleTask, updateTask } from 'src/app/state/todo.actions';
 import { selectTodoList } from 'src/app/state/todo.selectors';
 
 /**

@@ -1,5 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import * as HomePageActions from '../state/home-page.actions';
+import * as HomePageActions from './todo.actions';
 import { TodoItem } from '../model/todo-item.model';
 
 /**
