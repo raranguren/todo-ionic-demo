@@ -36,13 +36,15 @@
     <ng-container *ngIf="(todoList$ | async) as todoList">
       <!-- Use ngFor to iterate over tasks in list -->
       <ion-item *ngFor="let item of todoList; index as id">
-        <ion-col size="1">
-          <!-- Checkbox to toggle task completed state -->
-          <ion-checkbox (click)="toggle(id)" labelPlacement="end" [checked]="item.completed"></ion-checkbox>
+        <!-- Checkbox to toggle task completed state -->
+        <ion-col size="2" (click)="toggle(id)">
+          <ion-icon size="large" [name]="item.completed ? 'checkmark-circle' : 'ellipse-outline'"
+            [color]="item.completed ? 'medium' : ''"></ion-icon>
         </ion-col>
-        <ion-col>
-          <!-- Clickable task description to open edit dialog -->
-          <p (click)="openEditDialog(id, item.description)">{{item.description}}</p>
+        <!-- Clickable task description to open edit dialog -->
+        <ion-col size="10" (click)="openEditDialog(id, item.description)">
+          <ion-text [ngStyle]="{'text-decoration': item.completed ? 'line-through' : 'none'}"
+            [color]="item.completed ? 'medium' : ''">{{item.description}}</ion-text>
         </ion-col>
       </ion-item>
     </ng-container>
