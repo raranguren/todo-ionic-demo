@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { TodoItem } from '../model/todo-item.model';
+import { TodoItem } from '../../models/todo-item.model';
 
 /**
  * Actions for managing tasks in the Todo page.

@@ -1,29 +1,10 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import * as TodoActions from './todo.actions';
-import { TodoItem } from '../model/todo-item.model';
+import { TodoItem } from '../../models/todo-item.model';
+import { TodoState, TodoStatus } from './todo.state';
 
 /** Represents the feature key for the to-do list. */
 export const todoFeatureKey = 'todo';
-
-/** An enumeration of the possible status for a to-do list. */
-export enum TodoStatus {
-  /** The to-do list is currently being fetched from a data source. */
-  Fetching,
-  /** Has been successfully loaded from a data source. */
-  Loaded,
-  /** Currently being saved to a data source. */
-  Saving,
-  /** An error occurred */
-  Error,
-}
-
-/** Definition of the state for the to-do list feature. */
-export interface TodoState {
-  /** The list of to-do items. */
-  todoList: TodoItem[];
-  /** Indicates whether the to-do list is currently being loaded. */
-  status: TodoStatus;
-}
 
 /** Initial state of the to-do list. */
 export const initialState: TodoState = {

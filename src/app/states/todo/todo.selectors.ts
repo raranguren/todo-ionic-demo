@@ -2,7 +2,7 @@
  * Provides selectors for the todo feature state.
  */
 import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { TodoStatus, TodoState } from './todo.reducer';
+import { TodoStatus, TodoState } from './todo.state';
 
 /**
  * Selects the 'todo' feature state.

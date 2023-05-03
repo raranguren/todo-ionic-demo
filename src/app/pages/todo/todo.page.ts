@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { TodoItem } from 'src/app/model/todo-item.model';
-import { createTask, deleteAllTasks, toggleTask, updateTask, saveTodoList, fetchTasks } from 'src/app/state/todo.actions';
-import { TodoStatus } from 'src/app/state/todo.reducer';
-import { selectTodoList, selectTodoIsSaving, selectTodoStatus } from 'src/app/state/todo.selectors';
+import { TodoItem } from 'src/app/models/todo-item.model';
+import { createTask, deleteAllTasks, toggleTask, updateTask, saveTodoList, fetchTasks } from 'src/app/states/todo/todo.actions';
+import { TodoStatus } from 'src/app/states/todo/todo.state';
+import { selectTodoList, selectTodoIsSaving, selectTodoStatus } from 'src/app/states/todo/todo.selectors';
 
 /**
  * The view-model for the todo page, responsible for managing the todo list state.

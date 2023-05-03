@@ -6,7 +6,7 @@ import {
   createSelector,
   MetaReducer
 } from '@ngrx/store';
-import { todoReducer } from './todo.reducer';
+import { todoReducer } from './todo/todo.reducer';
 
 /**
  * Represents the model that is common to all features.
