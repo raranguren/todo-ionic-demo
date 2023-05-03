@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { TodoItem } from 'src/app/models/todo-item.model';
 import { createTask, deleteAllTasks, toggleTask, updateTask, saveTodoList, fetchTasks } from 'src/app/states/todo/todo.actions';
 import { TodoStatus } from 'src/app/states/todo/todo.state';
-import { selectTodoList, selectTodoIsSaving, selectTodoStatus } from 'src/app/states/todo/todo.selectors';
+import { selectTodoList, selectTodoStatus } from 'src/app/states/todo/todo.selectors';
 
 /**
  * The view-model for the todo page, responsible for managing the todo list state.
