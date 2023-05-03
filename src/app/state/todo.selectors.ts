@@ -32,3 +32,14 @@ export const selectTodoIsSaving = createSelector(
   selectTodoFeature,
   (state: TodoState) => state.status == TodoStatus.Saving
 );
+
+
+/**
+ * Selects the status of the todo list from the 'todo' feature state
+ * @param {TodoState} state - the 'todo' feature state.
+ * @returns {any} The status as listed in enum TodoListStatus
+ */
+export const selectTodoStatus = createSelector(
+  selectTodoFeature,
+  (state: TodoState) => state.status
+);

@@ -6,22 +6,56 @@
     </ion-title>
   </ion-toolbar>
 
-    <!-- A button shows in the top corner to save tasks to database -->
-    <ion-fab vertical="top" horizontal="end" class="ion-align-items-center ion-justify-content-center" style="display: flex;">
-      <!-- A spinner shows while it is saving -->
-      <ion-spinner [name]="(isSaving$ | async) ? 'circles' : 'none'"></ion-spinner>
-      <!-- and the button is disabled while saving -->
-      <ion-button (click)="saveToDatabase()" [disabled]="isSaving$ | async">
-        <ion-icon name="cloud-upload-outline" size="large"></ion-icon>
-      </ion-button>
-    </ion-fab>  
-    
-     
+  <!-- A button shows in the top corner to save tasks to database -->
+  <ion-fab vertical="top" horizontal="end" class="ion-align-items-center ion-justify-content-center"
+    style="display: flex;" (click)="saveToDatabase()">
+    <!-- disabled while saving -->
+    <ion-button [disabled]="(status$ | async) == STATUS_IS_SAVING">
+      <ion-icon name="cloud-upload-outline" size="large"></ion-icon>
+    </ion-button>
+  </ion-fab>
 
 </ion-header>
 
-<!-- Tasks page content -->
-<ion-content [fullscreen]="true">
+<!-- Spinner indicator content shown while SAVING -->
+<ion-content [fullscreen]="true" *ngIf="(status$ | async) == STATUS_IS_SAVING">
+  <ion-grid style="height: 100%;">
+    <ion-row class="ion-align-items-center" style="height: 100%;">
+      <ion-col class="ion-text-center d-flex flex-column justify-content-center">
+        <ion-spinner name="lines"></ion-spinner>
+        <p style="margin-top: 1.5rem;">Guardando...</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<!-- Spinner indicator content shown while FETCHING -->
+<ion-content [fullscreen]="true" *ngIf="(status$ | async) == STATUS_IS_FETCHING">
+  <ion-grid style="height: 100%;">
+    <ion-row class="ion-align-items-center" style="height: 100%;">
+      <ion-col class="ion-text-center d-flex flex-column justify-content-center">
+        <ion-spinner name="lines"></ion-spinner>
+        <p style="margin-top: 1.5rem;">Cargando...</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<!-- Spinner indicator content shown when there is an error -->
+<ion-content [fullscreen]="true" *ngIf="(status$ | async) == STATUS_IS_ERROR">
+  <ion-grid style="height: 100%;">
+    <ion-row class="ion-align-items-center" style="height: 100%;">
+      <ion-col class="ion-text-center d-flex flex-column justify-content-center">
+        <ion-icon name="warning-outline" color="warning" size="large"></ion-icon>
+        <p style="margin-top: 1.5rem;">Ha ocurrido un error.</p>
+        <ion-button (click)="retryAfterError()">Reintentar</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<!-- Tasks page content shown when status is loaded -->
+<ion-content [fullscreen]="true" *ngIf="(status$ | async) == STATUS_IS_LOADED">
 
   <!-- collapsable header for iOS -->
   <ion-header collapse="condense">
@@ -48,7 +82,7 @@
         </ion-col>
       </ion-item>
     </ng-container>
-  
+
     <!-- spinner while the list is loading in async -->
     <!-- TODO: use loading value from the state -->
     <ng-template #loading>
@@ -56,7 +90,7 @@
         <ion-spinner name="circular" class="ion-col-12"></ion-spinner>
       </ion-item>
     </ng-template>
-  </ion-list> 
+  </ion-list>
 
   <!-- floating button to add new task -->
   <ion-fab vertical="bottom" horizontal="end">
@@ -79,7 +113,7 @@
         <ion-label position="floating">Descripción de tarea</ion-label>
         <ion-input type="text" [(ngModel)]="editingText"></ion-input>
       </ion-item>
-      
+
       <ion-buttons class="ion-margin ion-justify-content-between">
         <ion-button color="medium" size="large" (click)="closeDialog()">
           <ion-icon name="arrow-back-outline"></ion-icon>
@@ -99,7 +133,7 @@
         <ion-label position="floating">Descripción de tarea</ion-label>
         <ion-input type="text" [(ngModel)]="editingText"></ion-input>
       </ion-item>
-      
+
       <ion-buttons class="ion-margin ion-justify-content-between">
         <ion-button color="medium" size="large" (click)="closeDialog()">
           <ion-icon name="arrow-back-outline"></ion-icon>
