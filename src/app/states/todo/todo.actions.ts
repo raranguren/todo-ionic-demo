@@ -49,9 +49,17 @@ export const setTodoList = createAction(
 );
 
 /**
- * Action for saving the list of tasks to the database.
+ * Action for saving the current list of tasks to the database.
  */
-export const saveTodoList = createAction('[Todo] Save todo list');
+export const saveTodoList = createAction('[Todo] Begin save todo list');
+
+/**
+ * Action for saving the current list of tasks to the database.
+ */
+export const executeSaveTodoList = createAction(
+  '[Todo] Save a todo list, passing the list as parameter',
+  props<{ todoList: TodoItem[] }>()
+);
 
 /**
  * Action for indicating that the list of tasks has been successfully saved to the database.
@@ -66,5 +74,14 @@ export const saveTodoListSuccess = createAction(
  */
 export const saveTodoListError = createAction(
   '[Todo] Save todo list error',
+  props<{ error: any }>()
+);
+
+/**
+ * Action for indicating that there was an error while fetching the list of tasks from the database.
+ * @param {any} error - The error that occurred while saving the tasks.
+ */
+export const fetchTodoListError = createAction(
+  '[Todo] Fetch Todo List Error',
   props<{ error: any }>()
 );

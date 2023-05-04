@@ -1,41 +1,48 @@
 import { Injectable } from '@angular/core';
-import { TodoItem } from '../models/todo-item.model';
-import { BehaviorSubject } from 'rxjs';
+import { Firestore, collectionData, collection } from '@angular/fire/firestore';
+import { Observable, of } from 'rxjs';
 
+import { TodoItem } from '../models/todo-item.model';
+
+/**
+ * This service represents the Data layer for the todo-list
+ * It's responsibility is to provide access to the Firebase database for the feature
+ * and it should only be called by the state effects
+ */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TodoService {
+  /**
+   * @param firestore is the Firestore object initialized in app.module.ts
+   */
+  constructor(private firestore: Firestore) {}
 
-  // temporarily hardcoded
-  private todoList : TodoItem[] = [
-    new TodoItem("Comprar verduras del mercado"),
-    new TodoItem("Lavar la furgoneta"),
-  ];
-  private todoList$ = new BehaviorSubject(this.todoList);
-
-  constructor() { }
-
-  public deleteAll() {
-    this.todoList.splice(0,this.todoList.length);
+  /**
+   * Read todo list from the database
+   * @returns an observable that produces an array or returns throwError(error) 
+   */
+  getTodoList(): Observable<TodoItem[]> {
+    console.log('[TodoService] getTodoList()');
+    // TODO use Firestore to read
+    return of([
+      {'description': 'Conectar app a firebase', 'completed': false},
+      {'description': 'Subir tareas de forma síncrona', 'completed': false},
+      {'description': 'Refactorizar con redux', 'completed': true},
+      {'description': 'Separar el state de Todo y Auth', 'completed': false},
+      {'description': 'Añadir router con AuthPage', 'completed': false},
+      {'description': 'Auth con Firebase', 'completed': false},
+    ]);
   }
 
-  public add(description: string) {
-    this.todoList.push(new TodoItem(description));
+  /**
+   * Write the todo list on the database
+   * @returns an empty observable when finished, or returns throwError(error) 
+   */
+  saveTodoList(todoList : TodoItem[]) {
+    console.log('[TodoService] saveTodoList() - array size: ' + todoList.length);
+    // TODO use Firestore to save
+    return of(null);
   }
-
-  public update(id: number, description: string) {
-    if (id >= this.todoList.length || id < 0) return;
-    this.todoList[id].description = description;
-  }
-
-  public getById(id: number) : TodoItem|null {
-    if (id >= this.todoList.length || id < 0) return null;
-    return this.todoList[id];
-  }
-
-  public getAll() {
-    return this.todoList$.asObservable();
-  }
-
+  
 }
