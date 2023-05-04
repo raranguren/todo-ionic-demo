@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collectionData, collection } from '@angular/fire/firestore';
-import { Observable, of } from 'rxjs';
+import {
+  Firestore,
+  DocumentData,
+  setDoc,
+  doc,
+  DocumentReference,
+  getDoc,
+} from '@angular/fire/firestore';
+import { Observable, from, map, of } from 'rxjs';
 
 import { TodoItem } from '../models/todo-item.model';
 
@@ -13,36 +20,47 @@ import { TodoItem } from '../models/todo-item.model';
   providedIn: 'root',
 })
 export class TodoService {
+  /** Reference to the Firestore document instance
+   * that contains the tasks as a map
+   */
+  private todoDocumentRef: DocumentReference<DocumentData>;
+
   /**
    * @param firestore is the Firestore object initialized in app.module.ts
    */
-  constructor(private firestore: Firestore) {}
+  constructor(private firestore: Firestore) {
+    this.todoDocumentRef = doc(this.firestore, 'todo/todo');
+  }
 
   /**
    * Read todo list from the database
-   * @returns an observable that produces an array or returns throwError(error) 
+   * @returns an observable that produces an array or returns throwError(error)
    */
   getTodoList(): Observable<TodoItem[]> {
-    console.log('[TodoService] getTodoList()');
-    // TODO use Firestore to read
-    return of([
-      {'description': 'Conectar app a firebase', 'completed': false},
-      {'description': 'Subir tareas de forma síncrona', 'completed': false},
-      {'description': 'Refactorizar con redux', 'completed': true},
-      {'description': 'Separar el state de Todo y Auth', 'completed': false},
-      {'description': 'Añadir router con AuthPage', 'completed': false},
-      {'description': 'Auth con Firebase', 'completed': false},
-    ]);
+    return from(getDoc(this.todoDocumentRef)).pipe(
+      map((documentSnapshot) => {
+        if (!documentSnapshot.exists()) return [];
+        const data = documentSnapshot.data()['tasks'];
+        if (!data) return [];
+        return data.map(
+          (task: any) => new TodoItem(task.description, task.completed)
+        );
+      })
+    );
   }
 
   /**
    * Write the todo list on the database
-   * @returns an empty observable when finished, or returns throwError(error) 
+   * @returns an empty observable when finished, or returns throwError(error)
    */
-  saveTodoList(todoList : TodoItem[]) {
-    console.log('[TodoService] saveTodoList() - array size: ' + todoList.length);
-    // TODO use Firestore to save
-    return of(null);
+  saveTodoList(todoList: TodoItem[]) {
+    return of(
+      setDoc(this.todoDocumentRef, {
+        tasks: todoList.map(({ description, completed }) => ({
+          description,
+          completed,
+        })),
+      })
+    );
   }
-  
 }
