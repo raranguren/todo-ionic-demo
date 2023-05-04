@@ -1,16 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as TodoActions from './todo.actions';
 import { TodoItem } from '../../models/todo-item.model';
-import { TodoState, TodoStatus } from './todo.state';
-
-/** Represents the feature key for the to-do list. */
-export const todoFeatureKey = 'todo';
-
-/** Initial state of the to-do list. */
-export const initialState: TodoState = {
-  todoList: [],
-  status: TodoStatus.Loaded,
-};
+import { TodoStatus, initialState } from './todo.state';
 
 /** Reducers that handle each action */
 export const todoReducer = createReducer(

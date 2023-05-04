@@ -5,8 +5,9 @@ import { FormsModule } from '@angular/forms';
 
 import { TodoPageRoutingModule } from './todo-routing.module';
 import { StoreModule } from '@ngrx/store';
-import { todoFeatureKey, todoReducer } from 'src/app/states/todo/todo.reducer';
+import { todoReducer } from 'src/app/states/todo/todo.reducer';
 import { TodoPage } from './todo.page';
+import { todoFeatureKey } from 'src/app/states/todo/todo.state';
 
 
 @NgModule({

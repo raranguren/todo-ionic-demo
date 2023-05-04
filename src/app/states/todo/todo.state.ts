@@ -1,5 +1,7 @@
 import { TodoItem } from "src/app/models/todo-item.model";
 
+/** Represents the feature key for the to-do list. */
+export const todoFeatureKey = 'todo';
 
 /** Definition of the state for the to-do list feature. */
 export interface TodoState {
@@ -20,3 +22,9 @@ export enum TodoStatus {
   /** An error occurred */
   Error,
 }
+
+/** Initial state of the to-do list. */
+export const initialState: TodoState = {
+  todoList: [],
+  status: TodoStatus.Loaded,
+};
