@@ -71,12 +71,12 @@
       <!-- Use ngFor to iterate over tasks in list -->
       <ion-item *ngFor="let item of todoList; index as id">
         <!-- Checkbox to toggle task completed state -->
-        <ion-col size="1" (click)="toggle(id)">
+        <ion-col size="2" (click)="toggle(id)">
           <ion-icon size="large" [name]="item.completed ? 'checkmark-circle' : 'ellipse-outline'"
             [color]="item.completed ? 'medium' : ''"></ion-icon>
         </ion-col>
         <!-- Clickable task description to open edit dialog -->
-        <ion-col size="11" (click)="openEditDialog(id, item.description)">
+        <ion-col size="10" (click)="openEditDialog(id, item.description)">
           <ion-text [ngStyle]="{'text-decoration': item.completed ? 'line-through' : 'none'}"
             [color]="item.completed ? 'medium' : ''">{{item.description}}</ion-text>
         </ion-col>
@@ -111,7 +111,7 @@
     <ng-template>
       <ion-item class="ion-margin">
         <ion-label position="floating">Descripción de tarea</ion-label>
-        <ion-input type="text" [(ngModel)]="editingText"></ion-input>
+        <ion-input type="text" [(ngModel)]="editingText" label="Descripción de tarea"></ion-input>
       </ion-item>
 
       <ion-buttons class="ion-margin ion-justify-content-between">
