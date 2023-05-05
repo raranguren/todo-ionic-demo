@@ -7,10 +7,10 @@ import { Expose } from 'class-transformer';
  * @property {boolean} completed - Whether the todo item is completed or not.
  */
 export class TodoItem {
-  @Expose() 
+  @Expose()
   description: string;
 
-  @Expose() 
+  @Expose()
   completed: boolean;
 
   constructor(description: string, completed = false) {
