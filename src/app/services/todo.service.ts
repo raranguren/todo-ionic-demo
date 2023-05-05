@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
-import {
-  Firestore,
-  DocumentData,
-  setDoc,
-  doc,
-  DocumentReference,
-  getDoc,
-} from '@angular/fire/firestore';
 import { Observable, from, map, of } from 'rxjs';
 
+import * as fire from '@angular/fire/firestore';
+import * as serializer from 'class-transformer';
+
 import { TodoItem } from '../models/todo-item.model';
+import { TodoDocument } from '../models/todo-document.model';
 
 /**
  * This service represents the Data layer for the todo-list
@@ -23,13 +19,13 @@ export class TodoService {
   /** Reference to the Firestore document instance
    * that contains the tasks as a map
    */
-  private todoDocumentRef: DocumentReference<DocumentData>;
+  private todoDocumentRef: fire.DocumentReference<fire.DocumentData>;
 
   /**
    * @param firestore is the Firestore object initialized in app.module.ts
    */
-  constructor(private firestore: Firestore) {
-    this.todoDocumentRef = doc(this.firestore, 'todo/todo');
+  constructor(private firestore: fire.Firestore) {
+    this.todoDocumentRef = fire.doc(this.firestore, 'todo/todo');
   }
 
   /**
@@ -37,14 +33,13 @@ export class TodoService {
    * @returns an observable that produces an array or returns throwError(error)
    */
   getTodoList(): Observable<TodoItem[]> {
-    return from(getDoc(this.todoDocumentRef)).pipe(
+    return from(fire.getDoc(this.todoDocumentRef)).pipe(
       map((documentSnapshot) => {
         if (!documentSnapshot.exists()) return [];
-        const data = documentSnapshot.data()['tasks'];
+        const data = documentSnapshot.data();
         if (!data) return [];
-        return data.map(
-          (task: any) => new TodoItem(task.description, task.completed)
-        );
+        const todoDocument = serializer.plainToInstance(TodoDocument, data);
+        return todoDocument.tasks;
       })
     );
   }
@@ -55,12 +50,10 @@ export class TodoService {
    */
   saveTodoList(todoList: TodoItem[]) {
     return of(
-      setDoc(this.todoDocumentRef, {
-        tasks: todoList.map(({ description, completed }) => ({
-          description,
-          completed,
-        })),
-      })
+      fire.setDoc(
+        this.todoDocumentRef,
+        serializer.instanceToPlain(new TodoDocument(todoList))
+      )
     );
   }
 }
