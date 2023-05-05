@@ -67,6 +67,10 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# Ionic mobile deployments
+android
+ios
+
 # Firebase
 .firebase
 *-debug.log
