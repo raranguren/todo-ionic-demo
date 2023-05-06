@@ -24,7 +24,7 @@
       "dom"
     ],
     "useDefineForClassFields": false,
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
