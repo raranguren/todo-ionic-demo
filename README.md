@@ -42,35 +42,7 @@ Effects handle asynchronous side effects, like API calls. They listen for action
 
 MetaReducers handle synchronous changes to state or actions during development. They address cross-cutting concerns (features affecting multiple parts, like logging or security).
 
-```plantuml
-@startuml
-!theme blueprint
-
-class Actions
-class Effects
-together{
-    class Reducers
-    class State
-    class Selectors
-}
-class Components
-class Services
-
-Components ..> Selectors : observe
-State <.. Selectors : observe
-Actions <-- Components : dispatch
-Actions <-- Effects : dispatch
-Actions --> Effects : trigger
-Effects --> Services : use
-Reducers --> State : update
-Reducers <- Actions : trigger
-Selectors <. Services : observe
-
-hide members
-hide circle
-
-@enduml
-```
+![](plantuml/ngrx.svg)
 
 ### Example: Todo Feature
 

@@ -1,0 +1,27 @@
+@startuml
+!theme blueprint
+
+class Actions
+class Effects
+together{
+    class Reducers
+    class State
+    class Selectors
+}
+class Components
+class Services
+
+Components ..> Selectors : observe
+State <.. Selectors : observe
+Actions <-- Components : dispatch
+Actions <-- Effects : dispatch
+Actions --> Effects : trigger
+Effects --> Services : use
+Reducers --> State : update
+Reducers <- Actions : trigger
+Selectors <. Services : observe
+
+hide members
+hide circle
+
+@enduml
