@@ -1,29 +1,43 @@
 import { TodoItem } from "src/app/models/todo-item.model";
 
-/** Represents the feature key for the to-do list. */
+/**
+ * Represents the key of the todo feature state.
+ */
 export const todoFeatureKey = 'todo';
 
-/** Definition of the state for the to-do list feature. */
+/**
+ * Represents the state of the todo feature.
+ */
 export interface TodoState {
-  /** The list of to-do items. */
+  /**
+   * The list of todo items.
+   */
   todoList: TodoItem[];
-  /** Indicates whether the to-do list is currently being loaded. */
+  /**
+   * The status of the todo list, as described by the TodoStatus enum.
+   * Used in the TodoComponent to display different content depending on the status of the todo list.
+   */
   status: TodoStatus;
 }
 
-/** An enumeration of the possible status for a to-do list. */
+/**
+ * Represents the status of the todo list.
+ * - Fetching: The document is being retrieved from the cloud.
+ * - Loaded: The document has been retrieved from the cloud.
+ * - Saving: The document is being saved to the cloud.
+ * - Error: An error occurred while retrieving or saving the document.
+ */
 export enum TodoStatus {
-  /** The to-do list is currently being fetched from a data source. */
   Fetching,
-  /** Has been successfully loaded from a data source. */
   Loaded,
-  /** Currently being saved to a data source. */
   Saving,
-  /** An error occurred */
   Error,
 }
 
-/** Initial state of the to-do list. */
+/**
+ * Represents the initial state of the todo feature.
+ * The todo list is initially empty and the status is 'Loaded'.
+ */
 export const initialState: TodoState = {
   todoList: [],
   status: TodoStatus.Loaded,
