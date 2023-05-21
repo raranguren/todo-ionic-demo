@@ -10,7 +10,7 @@
   <ion-fab vertical="top" horizontal="end" class="ion-align-items-center ion-justify-content-center"
     style="display: flex;" (click)="saveToDatabase()">
     <!-- disabled while saving -->
-    <ion-button [disabled]="(status$ | async) == STATUS_IS_SAVING">
+    <ion-button [disabled]="(status$ | async) === STATUS_IS_SAVING">
       <ion-icon name="cloud-upload-outline" size="large"></ion-icon>
     </ion-button>
   </ion-fab>
@@ -18,7 +18,7 @@
 </ion-header>
 
 <!-- Spinner indicator content shown while SAVING -->
-<ion-content [fullscreen]="true" *ngIf="(status$ | async) == STATUS_IS_SAVING">
+<ion-content [fullscreen]="true" *ngIf="(status$ | async) === STATUS_IS_SAVING">
   <ion-grid style="height: 100%;">
     <ion-row class="ion-align-items-center" style="height: 100%;">
       <ion-col class="ion-text-center d-flex flex-column justify-content-center">
@@ -30,7 +30,7 @@
 </ion-content>
 
 <!-- Spinner indicator content shown while FETCHING -->
-<ion-content [fullscreen]="true" *ngIf="(status$ | async) == STATUS_IS_FETCHING">
+<ion-content [fullscreen]="true" *ngIf="(status$ | async) === STATUS_IS_FETCHING">
   <ion-grid style="height: 100%;">
     <ion-row class="ion-align-items-center" style="height: 100%;">
       <ion-col class="ion-text-center d-flex flex-column justify-content-center">
@@ -42,7 +42,7 @@
 </ion-content>
 
 <!-- Spinner indicator content shown when there is an error -->
-<ion-content [fullscreen]="true" *ngIf="(status$ | async) == STATUS_IS_ERROR">
+<ion-content [fullscreen]="true" *ngIf="(status$ | async) === STATUS_IS_ERROR">
   <ion-grid style="height: 100%;">
     <ion-row class="ion-align-items-center" style="height: 100%;">
       <ion-col class="ion-text-center d-flex flex-column justify-content-center">
@@ -55,7 +55,7 @@
 </ion-content>
 
 <!-- Tasks page content shown when status is loaded -->
-<ion-content [fullscreen]="true" *ngIf="(status$ | async) == STATUS_IS_LOADED">
+<ion-content [fullscreen]="true" *ngIf="(status$ | async) === STATUS_IS_LOADED">
 
   <!-- collapsable header for iOS -->
   <ion-header collapse="condense">

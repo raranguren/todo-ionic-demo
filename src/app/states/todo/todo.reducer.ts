@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as TodoActions from './todo.actions';
 import { TodoItem } from '../../models/todo-item.model';
-import { TodoStatus, initialState } from './todo.state';
+import { TodoState, TodoStatus, initialState } from './todo.state';
 
 /** Reducers that handle each action */
 export const todoReducer = createReducer(
@@ -13,7 +13,7 @@ export const todoReducer = createReducer(
    * @param description - The description of the new to-do item.
    * @returns The updated state of the to-do list.
    */
-  on(TodoActions.createTask, (state, { description }) => ({
+  on(TodoActions.createTask, (state, { description }): TodoState => ({
     ...state,
     todoList: [...state.todoList, new TodoItem(description)],
   })),
@@ -23,7 +23,7 @@ export const todoReducer = createReducer(
    * @param state - The current state of the to-do list.
    * @returns The updated state of the to-do list.
    */
-  on(TodoActions.deleteAllTasks, (state) => ({
+  on(TodoActions.deleteAllTasks, (state): TodoState => ({
     ...state,
     todoList: initialState.todoList,
   })),
@@ -79,7 +79,7 @@ export const todoReducer = createReducer(
    * @param state - The current state of the to-do list.
    * @returns The updated state of the to-do list.
    */
-  on(TodoActions.fetchTasks, (state) => ({
+  on(TodoActions.fetchTasks, (state): TodoState => ({
     ...state,
     status: TodoStatus.Fetching,
   })),
@@ -91,7 +91,7 @@ export const todoReducer = createReducer(
    * @param todoList - The list of tasks to set in the store.
    * @returns The updated state of the to-do list.
    */
-  on(TodoActions.setTodoList, (state, { todoList }) => ({
+  on(TodoActions.setTodoList, (state, { todoList }): TodoState => ({
     ...state,
     todoList,
     status: TodoStatus.Loaded,
@@ -102,7 +102,7 @@ export const todoReducer = createReducer(
    * @param state - The current state of the to-do list.
    * @returns The updated state of the to-do list.
    */
-  on(TodoActions.saveTodoList, (state) => ({
+  on(TodoActions.saveTodoList, (state): TodoState => ({
     ...state,
     status: TodoStatus.Saving,
   })),
@@ -112,7 +112,7 @@ export const todoReducer = createReducer(
    * @param state - The current state of the to-do list.
    * @returns The updated state of the to-do list.
    */
-  on(TodoActions.saveTodoListSuccess, (state) => ({
+  on(TodoActions.saveTodoListSuccess, (state): TodoState => ({
     ...state,
     status: TodoStatus.Loaded,
   })),

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType, concatLatestFrom } from '@ngrx/effects';
 import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
@@ -30,11 +30,11 @@ export class TodoEffects {
    * @type {Observable<Action>}
    */
   beginSaveTasks$ = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(TodoActions.saveTodoList),
-      withLatestFrom(this.store.select(selectTodoList)),
+      concatLatestFrom(() => this.store.select(selectTodoList)),
       map(([_, todoList]) => TodoActions.executeSaveTodoList({ todoList }))
-    )
+    ) }
   );
 
   /**
@@ -42,7 +42,7 @@ export class TodoEffects {
    * @type {Observable<Action>}
    */
   saveTasks$ = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(TodoActions.executeSaveTodoList),
       switchMap(({ todoList }) =>
         this.todoService.saveTodoList(todoList).pipe(
@@ -50,11 +50,11 @@ export class TodoEffects {
           catchError(error => of(TodoActions.saveTodoListError({ error })))
         )
       )
-    )
+    ) }
   );
 
   fetchTasks$ = createEffect(() =>
-    this.actions$.pipe(
+    { return this.actions$.pipe(
       ofType(TodoActions.fetchTasks),
       switchMap(() =>
         this.todoService.getTodoList().pipe(
@@ -62,6 +62,6 @@ export class TodoEffects {
           catchError((error) => of(TodoActions.fetchTodoListError({ error })))
         )
       )
-    )
+    ) }
   );
 }
